@@ -256,7 +256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>데이터 타입은 문자열과 숫자형으로 나눠지는군요.</p>
 <p>저희는 문자열은 빈도수로 데이터 패턴을 파악하고, 숫자형은 산술통계를 활용해볼게요!</p>
 <p><img src="https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png" class="img-fluid"></p>
-<div id="ae033d7e" class="cell" data-execution_count="1">
+<div id="fa07cc64" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(penguins.info())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -285,7 +285,7 @@ None</code></pre>
 <h3 class="anchored" data-anchor-id="데이터-결측치-확인">2. 데이터 결측치 확인</h3>
 <p><strong>총 344개</strong>의 데이터 중 전체 결측치는 11개</p>
 <p>주로 성별데이터에서 결측치가 존재한다.</p>
-<div id="ae754f53" class="cell" data-execution_count="2">
+<div id="b6dbcbe5" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>na_check <span class="op">=</span> penguins.isna().<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">int</span>(na_check.iloc[<span class="dv">2</span>])</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>err <span class="op">=</span> penguins.loc[(penguins[<span class="st">'sex'</span>].isna()), :]</span>
@@ -328,7 +328,7 @@ None</code></pre>
 <p>Palmer Penguin 데이터에는 Adelie, Gentoo, Chinstrap, 총 3개의 종류가 확인되네요.</p>
 <p>이는 오늘 데이터를 보는 데 있어 대분류 구분자로 활용될 것입니다.</p>
 <p><br></p>
-<div id="bb2573f4" class="cell" data-execution_count="3">
+<div id="9ec6439d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>penguins.loc[:, <span class="st">'species'</span>].unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>array(['Adelie', 'Gentoo', 'Chinstrap'], dtype=object)</code></pre>
@@ -379,7 +379,7 @@ None</code></pre>
 <li><strong>Chinstrap</strong> 펭귄이 다른 펭귄들에 비해 표본 데이터 개수가 적다.</li>
 <li>대체적으로 성별 데이터는 남여 비율이 일정하지만, 일부 결측치가 존재한다.</li>
 </ul>
-<div id="dab7e7ca" class="cell" data-execution_count="4">
+<div id="60c7c960" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>not_num <span class="op">=</span> penguins.select_dtypes(include<span class="op">=</span>[<span class="st">'object'</span>]).columns</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>group_by_species <span class="op">=</span> penguins.groupby(<span class="st">'species'</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>cnt <span class="op">=</span> {col: group_by_species[col].value_counts() <span class="cf">for</span> col <span class="kw">in</span> not_num}</span>
@@ -450,7 +450,7 @@ Name: count, dtype: int64}</code></pre>
 <li>몸무게는 <strong>Gentoo</strong> 펭귄이 다른 펭귄들보다 무거운 경향성을 보인다.</li>
 </ul>
 <p><br></p>
-<div id="7d78eedb" class="cell" data-execution_count="5">
+<div id="12345a62" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>species_means <span class="op">=</span> penguins.groupby([<span class="st">'species'</span>, <span class="st">'sex'</span>]).mean(numeric_only<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(species_means,ndigits<span class="op">=</span><span class="dv">2</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>species_means.columns <span class="op">=</span> [<span class="st">"부리길이"</span>, <span class="st">"부리깊이"</span>, <span class="st">"날개길이"</span>, <span class="st">"몸무게"</span>, <span class="st">"관측연도"</span>]</span>
