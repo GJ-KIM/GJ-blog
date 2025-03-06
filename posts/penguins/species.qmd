@@ -1,0 +1,141 @@
+---
+title: "1.Penguins_species"
+author: "GJ"
+date: "2025-03-07"
+categories: [analysis]
+---
+<br>
+<br>
+
+<center>
+![](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-s9aOENQqhR1UkpRSo_eFCnsE6tfTVT8lYQ&s)</center>
+
+<br>
+<br>
+
+### 1. 펭귄 데이터 불러오기
+
+
+| No. | Col               | Dtype   |
+|-----|-------------------|---------|
+| 1   | **종** species           | object  |
+| 2   | **서식지** island            | object  |
+| 3   | **부리 길이** bill_length_mm    | float64 |
+| 4   | **부리 깊이** bill_depth_mm     | float64 |
+| 5   | **날개 길이** flipper_length_mm | float64 |
+| 6   | **몸무게** body_mass_g       | float64 |
+| 7   | **성별** sex               | object  |
+| 8   | **관측년도** year              | int64   |
+
+`info()`를 통해 확인 결과, 총 8개의 열로 이뤄진 344개의 데이터가 존재하네요!
+
+데이터 타입은 문자열과 숫자형으로 나눠지는군요.
+
+저희는 문자열은 빈도수로 데이터 패턴을 파악하고, 숫자형은 산술통계를 활용해볼게요!
+
+
+![](https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png)
+
+```{python}
+from palmerpenguins import load_penguins
+penguins = load_penguins()
+print(penguins.info())
+```
+
+<br>
+<br>
+
+### 2. 데이터 결측치 확인
+
+**총 344개**의 데이터 중 전체 결측치는 11개
+
+주로 성별데이터에서 결측치가 존재한다.
+
+```{python}
+na_check = penguins.isna().sum(axis=0)
+int(na_check.iloc[2])
+err = penguins.loc[(penguins['sex'].isna()), :]
+print(err)
+```
+
+부리 길이 개수의 결측치 개수는 '{python} int(na_check.iloc[2])'개 입니다.
+
+<br>
+<br>
+
+### 3. 펭귄의 종류 확인
+
+![](https://forum.posit.co/uploads/default/original/3X/0/b/0ba5d8b2b0621630afc7a53dcff5975ec693d05b.png)
+
+
+오늘 데이터는 "펭귄의 종류"에 따라 알아볼 거예요.
+
+Palmer Penguin 데이터에는 Adelie, Gentoo, Chinstrap, 총 3개의 종류가 확인되네요.
+
+이는 오늘 데이터를 보는 데 있어 대분류 구분자로 활용될 것입니다.
+
+<br>
+
+
+```{python}
+penguins.loc[:, 'species'].unique()
+
+```
+
+<br>
+<br>
+
+
+
+### 4. 빈도수 데이터 확인
+
+1. 서식지
+
+  |  |**Adelie**|**Gentoo**|**Chinstrap**|
+  |----|---------|--------|----|
+  |Dream|O|O|-|
+  |Torgersen|O|-|-|
+  |Biscoe|O|-|O|
+
+<br>
+
+2. 표본
+- **Chinstrap** 펭귄이 다른 펭귄들에 비해 표본 데이터 개수가 적다.
+- 대체적으로 성별 데이터는 남여 비율이 일정하지만, 일부 결측치가 존재한다.
+
+
+```{python}
+not_num = penguins.select_dtypes(include=['object']).columns
+group_by_species = penguins.groupby('species')
+cnt = {col: group_by_species[col].value_counts() for col in not_num}
+print(cnt)
+```
+
+<br>
+<br>
+
+### 5. 각 종별 평균 수치 구하기
+
+||몸무게|날개 길이|부리 길이|부리 깊이|
+|----| ---- |----|----| ----|
+|**1등**| Gentoo |  Gentoo | -  |   - |
+|**2등**| - | Chinstrap|-  |   - |
+|**3등**|- | Adelie | Adelie | Gentoo |
+
+- 수컷 펭귄이 암컷 펭귄보다 부리 길이, 부리 깊이, 날개 길이, 몸무게가 큰 경향이 있다.
+- **Gentoo** 펭귄은 다른 펭귄들보다 부리의 깊이가 짧은 경향성을 보인다.
+- 부리의 길이는 **Gentoo, Chinstrap, Adelie** 순으로 긴 경향성을 보인다.
+- 몸무게는 **Gentoo** 펭귄이 다른 펭귄들보다 무거운 경향성을 보인다.
+
+<br>
+
+```{python}
+species_means = penguins.groupby(['species', 'sex']).mean(numeric_only=True)
+round(species_means,ndigits=2)
+species_means.columns = ["부리길이", "부리깊이", "날개길이", "몸무게", "관측연도"]
+species_means.index.names = ["펭귄종", "성별"]
+round(species_means,ndigits=2)
+```
+
+<br>
+<br>
