@@ -1,0 +1,12 @@
+{
+  "hash": "297fa9ded2800f8a7b4fd1edcad203cd",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"7997\"\nauthor: \"Weno\"\ndate: \"2025-03-06\"\ncategories: [news, code, analysis]\nimage: \"image.jpg\"\n---\n\n\nThis is a post with executable code.\n\n::: {#a96fed96 .cell execution_count=1}\n``` {.python .cell-code}\nimport numpy as np\n\nprint(\"Hello, J\")\n```\n\n::: {.cell-output .cell-output-stdout}\n```\nHello, J\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
